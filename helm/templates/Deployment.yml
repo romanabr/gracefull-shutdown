@@ -59,12 +59,6 @@ spec:
               cpu: {{ .Values.gracefullShutdown.resources.requests.cpu }}
               memory: {{ .Values.gracefullShutdown.resources.requests.memory }}
           volumeMounts:
-            - name: synapselogs
-              mountPath: /opt/synapse/logs
-            - name: logback
-              mountPath: /logback/config
-            - name: config
-              mountPath: /deployments/config/
             - name: tmp-vlm
               mountPath: /tmp
           livenessProbe:

@@ -19,7 +19,7 @@ gracefullShutdown:
   deployment:
     replicas: 1
   appPort: 8080
-  actuatorPort: 8090
+  actuatorPort: 8080
   url: 'http://synapse-esbfs-ift.ingress.dev-apps.ocp-geo.delta.sbrf.ru:60102/pprb/srvgetcardcaseinfo'
   getCardInfoEnabled: 'true'
   getCardInfoValidationEnabled: 'false'

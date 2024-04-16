@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  shutdown: graceful
+spring:
+  config:
+    name: local-config
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+
+#logging:
+#  config: classpath:logback-spring.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,metrics,health,loggers,info
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      module_id: cases-front-office-gateway
+      namespace: ${POD_NAMESPACE:local}
+      node_name: ${NODE_NAME:local}
+      pod: ${POD_NAME:local}
+  server:
+    port: 8080
