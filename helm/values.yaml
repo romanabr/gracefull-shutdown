@@ -1,0 +1,42 @@
+registry: 'registry.delta.sbrf.ru'
+
+gracefullShutdown:
+  istioResources:
+    requests:
+      cpu: '150m'
+      memory: '128Mi'
+    limits:
+      cpu: '250m'
+      memory: '256Mi'
+  secmanResources:
+    requests:
+      cpu: '50m'
+      memory: '64Mi'
+    limits:
+      cpu: '70m'
+      memory: '128Mi'
+  resources: { requests: { cpu: 400m, memory: 400Mi }, limits: { cpu: 500m, memory: 600Mi } }
+  deployment:
+    replicas: 1
+  appPort: 8080
+  actuatorPort: 8090
+  url: 'http://synapse-esbfs-ift.ingress.dev-apps.ocp-geo.delta.sbrf.ru:60102/pprb/srvgetcardcaseinfo'
+  getCardInfoEnabled: 'true'
+  getCardInfoValidationEnabled: 'false'
+  enableHttpRoutes: false
+  ott:
+    anonymous: false
+    authEnabled: true
+    secret: secret-gfl-ott
+    uvskOttAuthenticationFilterEnabled: 'false'
+    uvskOttAuthenticationFilterPattern: '/api/*'
+    uvskOttRestTemplateFilterOrder: '-2147483638'
+    uvskOttRestTemplateInterceptorEnabled: 'false'
+  fluentBit:
+    resources: { requests: { cpu: 50m, memory: 50Mi }, limits: { cpu: 50m, memory: 50Mi } }
+#    Latest fluent-bit version can be cheked in https://confluence.delta.sbrf.ru/pages/viewpage.action?pageId=4429253739#expand-ImagesDockerregistry .
+    image: '/ci00734898/ci00685811_synapse/fluent-bit@sha256:391be4b7b42d1374f6578e850e74bc4977a1d35cc3adad1fcf0940f74f0ac379'
+  probes:
+    liveness: { initialDelaySeconds: 10, periodSeconds: 10, timeoutSeconds: 5, failureThreshold: 3 }
+    readiness: { initialDelaySeconds: 10, periodSeconds: 10, timeoutSeconds: 5, failureThreshold: 1 }
+    startup: { initialDelaySeconds: 30, periodSeconds: 10, timeoutSeconds: 5, failureThreshold: 12 }

@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gracefull-shutdown
+spec:
+  progressDeadlineSeconds: 120
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  replicas: {{ .Values.gracefullShutdown.deployment.replicas }}
+  selector:
+    matchLabels:
+      name: gracefull-shutdown
+  template:
+    metadata:
+      annotations:
+
+      labels:
+        app: gracefull-shutdown
+        name: gracefull-shutdown
+    spec:
+      containers:
+        - name: app
+          image: {{ .Values.registry }}/{{ .Chart.Description }}
+          env:
+            - name: PROJECT_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          imagePullPolicy: Always
+          securityContext:
+            readOnlyRootFilesystem: true
+          ports:
+            - containerPort: {{ .Values.gracefullShutdown.appPort }}
+              name: rest
+          resources:
+            limits:
+              cpu: {{ .Values.gracefullShutdown.resources.limits.cpu }}
+              memory: {{ .Values.gracefullShutdown.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.gracefullShutdown.resources.requests.cpu }}
+              memory: {{ .Values.gracefullShutdown.resources.requests.memory }}
+          volumeMounts:
+            - name: synapselogs
+              mountPath: /opt/synapse/logs
+            - name: logback
+              mountPath: /logback/config
+            - name: config
+              mountPath: /deployments/config/
+            - name: tmp-vlm
+              mountPath: /tmp
+          livenessProbe:
+            httpGet: { path: /actuator/health, port: {{ .Values.gracefullShutdown.actuatorPort }} }
+            initialDelaySeconds: {{ .Values.gracefullShutdown.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.gracefullShutdown.probes.liveness.periodSeconds }}
+            timeoutSeconds: {{ .Values.gracefullShutdown.probes.liveness.timeoutSeconds }}
+            failureThreshold: {{ .Values.gracefullShutdown.probes.liveness.failureThreshold }}
+          readinessProbe:
+            httpGet: { path: /actuator/health, port: {{ .Values.gracefullShutdown.actuatorPort }} }
+            initialDelaySeconds: {{ .Values.gracefullShutdown.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.gracefullShutdown.probes.readiness.periodSeconds }}
+            timeoutSeconds: {{ .Values.gracefullShutdown.probes.readiness.timeoutSeconds }}
+            failureThreshold: {{ .Values.gracefullShutdown.probes.readiness.failureThreshold }}
+          startupProbe:
+            httpGet: { path: /actuator/health, port: {{ .Values.gracefullShutdown.actuatorPort }} }
+            initialDelaySeconds: {{ .Values.gracefullShutdown.probes.startup.initialDelaySeconds }}
+            periodSeconds: {{ .Values.gracefullShutdown.probes.startup.periodSeconds }}
+            timeoutSeconds: {{ .Values.gracefullShutdown.probes.startup.timeoutSeconds }}
+            failureThreshold: {{ .Values.gracefullShutdown.probes.startup.failureThreshold }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - gracefull-shutdown
+                topologyKey: kubernetes.io/hostname
+      volumes:
+#        - name: synapselogs
+#          emptyDir: { }
+#        - name: fluent-bit-config
+#          configMap:
+#            name: fluent-bit-config
+#            defaultMode: 256
+#        - name: logback
+#          configMap:
+#            name: gfl-rest-adapter-logback-cm
+#            defaultMode: 256
+#        - name: config
+#          configMap:
+#            name: gfl-rest-adapter-cm
+#            defaultMode: 256
+        - name: tmp-vlm
+          emptyDir: {}
