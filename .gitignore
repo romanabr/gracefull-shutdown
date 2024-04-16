@@ -1,0 +1,13 @@
+#maven files
+target
+*.flattened-pom.xml
+
+#IDEA files
+.idea
+.idea/httpRequests/*
+*.iml
+*.log*
+*.log
+
+
+/data/
