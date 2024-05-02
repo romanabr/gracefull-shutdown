@@ -16,6 +16,12 @@ spec:
   template:
     metadata:
       annotations:
+        sidecar.istio.io/inject: 'true'
+        sidecar.istio.io/proxyCPULimit: {{ .Values.gracefullShutdown.istioResources.limits.cpu }}
+        sidecar.istio.io/proxyMemoryLimit: {{ .Values.gracefullShutdown.istioResources.limits.memory }}
+        sidecar.istio.io/proxyCPU: {{ .Values.gracefullShutdown.istioResources.requests.cpu }}
+        sidecar.istio.io/proxyMemory: {{ .Values.gracefullShutdown.istioResources.requests.memory }}
+        sidecar.istio.io/prestop_sleep_envoy_duration: '60'
 
       labels:
         app: gracefull-shutdown

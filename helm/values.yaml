@@ -17,9 +17,9 @@ gracefullShutdown:
       memory: '128Mi'
   resources: { requests: { cpu: 400m, memory: 400Mi }, limits: { cpu: 500m, memory: 600Mi } }
   deployment:
-    replicas: 1
+    replicas: 2
   appPort: 8080
-  actuatorPort: 8080
+  actuatorPort: 8090
   url: 'http://synapse-esbfs-ift.ingress.dev-apps.ocp-geo.delta.sbrf.ru:60102/pprb/srvgetcardcaseinfo'
   getCardInfoEnabled: 'true'
   getCardInfoValidationEnabled: 'false'
@@ -39,4 +39,4 @@ gracefullShutdown:
   probes:
     liveness: { initialDelaySeconds: 10, periodSeconds: 10, timeoutSeconds: 5, failureThreshold: 3 }
     readiness: { initialDelaySeconds: 10, periodSeconds: 10, timeoutSeconds: 5, failureThreshold: 1 }
-    startup: { initialDelaySeconds: 30, periodSeconds: 10, timeoutSeconds: 5, failureThreshold: 12 }
+    startup: { initialDelaySeconds: 30, periodSeconds: 5, timeoutSeconds: 5, failureThreshold: 20 }

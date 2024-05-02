@@ -1,0 +1,10 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: grasefull-shutdown-service
+spec:
+  to:
+    kind: Service
+    name: grasefull-shutdown-service
+  port:
+    targetPort: 8080
