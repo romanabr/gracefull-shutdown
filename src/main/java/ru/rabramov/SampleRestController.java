@@ -11,16 +11,16 @@ public class SampleRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(SampleRestController.class);
 
-    @GetMapping("/test/{message}")
-    public String sendMessage(@PathVariable String message) {
+    @GetMapping("/test/{time}")
+    public String sendMessage(@PathVariable Long time) {
 
         try {
-            Thread.sleep(3000L);
+            Thread.sleep(time);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        logger.info("Health check invocation with param: {}", message);
+        logger.info("Health check invocation with param: {}", time);
 
-        return message + " OK";
+        return time + " OK";
     }
 }
