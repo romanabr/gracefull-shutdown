@@ -13,13 +13,14 @@ public class SampleRestController {
 
     @GetMapping("/test/{message}")
     public String sendMessage(@PathVariable String message) {
-        logger.info("Health check invocation with param: {}", message);
 
         try {
-            Thread.sleep(2000L);
+            Thread.sleep(3000L);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        logger.info("Health check invocation with param: {}", message);
+
         return message + " OK";
     }
 }
