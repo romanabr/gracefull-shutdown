@@ -1,6 +1,6 @@
 server:
   port: 8080
-  shutdown: graceful
+  shutdown: immediate
   tomcat:
     accesslog:
       enabled: true
@@ -10,9 +10,6 @@ server:
 spring:
   config:
     name: local-config
-  lifecycle:
-    timeout-per-shutdown-phase: 1m
-
 
 management:
   endpoints:
