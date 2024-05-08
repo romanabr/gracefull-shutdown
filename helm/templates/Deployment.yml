@@ -103,19 +103,5 @@ spec:
                 topologyKey: kubernetes.io/hostname
       terminationGracePeriodSeconds: 40
       volumes:
-#        - name: synapselogs
-#          emptyDir: { }
-#        - name: fluent-bit-config
-#          configMap:
-#            name: fluent-bit-config
-#            defaultMode: 256
-#        - name: logback
-#          configMap:
-#            name: gfl-rest-adapter-logback-cm
-#            defaultMode: 256
-#        - name: config
-#          configMap:
-#            name: gfl-rest-adapter-cm
-#            defaultMode: 256
         - name: tmp-vlm
           emptyDir: {}

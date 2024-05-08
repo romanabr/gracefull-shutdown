@@ -19,7 +19,7 @@ public class TimedRestController {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        logger.info("Health check invocation with param: {}", time);
+        logger.info("App method invocation with param: {}", time);
 
         return time + " OK";
     }
