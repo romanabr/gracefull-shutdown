@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SampleRestController {
+public class TimedRestController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SampleRestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TimedRestController.class);
 
     @GetMapping("/test/{time}")
     public String sendMessage(@PathVariable Long time) {
