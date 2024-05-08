@@ -30,6 +30,10 @@ spec:
       containers:
         - name: app
           image: {{ .Values.registry }}/{{ .Chart.Description }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep","10"]
           env:
             - name: PROJECT_NAME
               valueFrom:
