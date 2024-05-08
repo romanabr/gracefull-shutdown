@@ -21,6 +21,7 @@ spec:
         sidecar.istio.io/proxyMemoryLimit: {{ .Values.gracefullShutdown.istioResources.limits.memory }}
         sidecar.istio.io/proxyCPU: {{ .Values.gracefullShutdown.istioResources.requests.cpu }}
         sidecar.istio.io/proxyMemory: {{ .Values.gracefullShutdown.istioResources.requests.memory }}
+        "proxy.istio.io/config": "{ \"terminationDrainDuration\": \"40s\" }"
 
       labels:
         app: gracefull-shutdown
@@ -96,6 +97,7 @@ spec:
                       values:
                         - gracefull-shutdown
                 topologyKey: kubernetes.io/hostname
+      terminationGracePeriodSeconds: 40
       volumes:
         - name: tmp-vlm
           emptyDir: {}

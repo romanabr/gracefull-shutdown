@@ -1,6 +1,6 @@
 server:
   port: 8080
-  shutdown: immediate
+  shutdown: graceful
   tomcat:
     accesslog:
       enabled: true
