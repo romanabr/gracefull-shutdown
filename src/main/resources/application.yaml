@@ -6,7 +6,11 @@ server:
       enabled: true
       prefix: access_log1
       directory: /tmp
-
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 spring:
   config:
     name: local-config

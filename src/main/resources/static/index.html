@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function myFunction(operator) {
+            var request = {};
+            request.operator = operator
+            request.message = document.getElementById("message").value
+            request.scenario = document.getElementById("scenario").value
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", 'http://localhost:8080/chat', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(request));
+        }
+    </script>
+</head>
+<body>
+
+
+<p>Отправить сообщение
+<textarea id="message" name="message" rows="2" cols="33">
+привет
+</textarea>
+</p>
+
+<p>
+<label for="scenario">Выбери сценарий:</label>
+<select name="scenario" id="scenario">
+    <option value="scenario1">Сценарий 1 - Роман Кириллович Ц - Арест счетов</option>
+    <option value="scenario2">Сценарий 2 - Геннадий Ильич M - Не могу скачать СБОЛ</option>
+    <option value="scenario3">Сценарий 3 - Олег Игоревич C - Закрыть карту</option>
+</select>
+</p>
+
+
+<p>
+<br/><button onclick="myFunction(1)">оператору 1</button>
+<br/><button onclick="myFunction(2)">оператору 2</button>
+<br/><button onclick="myFunction(3)">оператору 3</button>
+<br/><button onclick="myFunction(4)">оператору 4</button>
+<br/><button onclick="myFunction(5)">оператору 5</button>
+</p>
+
+</body>
+</html>
